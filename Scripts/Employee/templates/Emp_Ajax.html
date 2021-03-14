@@ -1,0 +1,72 @@
+<script>
+    $("#btnsubmit").click(function(){
+        var Ename       = $("#Ename").val();
+        var Esal        = $("#Esalary").val();
+        var Eno         = $("#Eno").val();
+        var csr         = $("input[name=csrfmiddlewaretoken]").val();
+        var data        = {Ename:Ename,Eno:Eno,Esalary:Esal,csrfmiddlewaretoken:csr};
+        var object      = "";
+       // alert(Eno);
+        $.ajax({
+            'method':"POST",
+            'url':"{% url 'add' %}",
+            data : data,
+            dataType : "json",
+            success : function(data){
+                 for(i=0;i<data.p.length;i++)
+                    {
+                        object += "<t><td>" +
+                                    data.p[i].Ename +
+                                    "</td><td>" +
+                                    data.p[i].Esalary +
+                                    "</td><td> <button class='btn btn-sm btn-success' id='btn-edit' data-sid=" +
+                                    data.p[i].Eno +
+                                    ">Edit</button></td><td> <button class='btn btn-danger' id='btn-delete' data-sid=" +
+                                    data.p[i].Eno +
+                                    ">Delete</button></td></tr>" 
+            }
+                $("tbody").html(object);
+                $("form")[0].reset();
+
+            }
+        });
+    });
+    $("tbody").on("click","#btn-edit",function(){
+        var Eno         = $(this).attr("data-sid");
+        var csr         = $("input[name=csrfmiddlewaretoken]").val();
+        var data        = {Eno:Eno,csrfmiddlewaretoken:csr};
+        //alert(Eno);
+        $.ajax({
+            'method':"POST",
+            'url' : "{% url 'Edit' %}",
+             data   : data,
+             dataType : "json",
+             success : function(data){
+                 $("#Ename").val(data.Ename);
+                 $("#Esalary").val(data.Esalary);
+                 $("#Eno").val(data.Eno);
+                  var one = $("#Eno").val(data.Eno);
+             //alert(data.Eno);
+             }
+            
+
+        }); 
+    });
+        $("tbody").on("click","#btn-delete",function(){
+        var Eno         = $(this).attr("data-sid");
+        var csr         = $("input[name=csrfmiddlewaretoken]").val();
+        var data        = {Eno:Eno,csrfmiddlewaretoken:csr};
+        var mythis      = this;
+        $.ajax({
+            'method':"POST",
+            'url' : "{% url 'delete' %}",
+             data   : data,
+             dataType : "json",
+             success : function(data){
+                    $(mythis).closest('tr').fadeOut();
+             }
+            
+
+        }); 
+    });
+</script>

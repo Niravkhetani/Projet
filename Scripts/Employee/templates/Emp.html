@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container mt-5 align-content-center">
+            <div class="row">
+                <div class="col-lg-4">
+                    <p class="display-4 text-success d-block">Emloyee Input</p>
+                    <form name="form1" action="">
+                        {% csrf_token %}
+                        <input type="hidden" id="Eno">
+                        {{ EF.as_p }}
+                        <input type="button" class="btn btn-info mx-auto d-block" id="btnsubmit" value="Save">
+                    </form>
+                </div>
+                <div class="col-lg-8">
+                    <p class="display-4 text-primary d-block">Blog Data</p>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered text-center">
+                            <thead class="text-primary display-5" style="font-size:20px;">
+                                <th> Name </th>
+                                <th> Esalry </th>
+                                <th colspan="2"> Operations </th>
+                                
+                            </thead>
+                            <tbody>
+                                {% for i in Emp %}
+                                <tr>
+                                    <td> {{ i.Ename }} </td>
+                                    <td> {{ i.Esalary }} </td>
+                                    <td> <button class="btn btn-sm btn-success" id="btn-edit" data-sid="{{i.Eno}}">Edit</button></td>
+                                    <td> <button class="btn btn-danger" id="btn-delete" data-sid="{{ i.Eno }}">Delete</button></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    {% include 'Emp_Ajax.html' %}
+</html
